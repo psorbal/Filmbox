@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:th="http://www.thymeleaf.org">
+<head th:include="templates/head :: head">
+</head>
+<body>
+    <div class="container">
+        <div class="page-header">
+            <h1 class="text-center">Virtual-Index</h1>
+        </div>
+
+        <div th:replace="auth/login :: loginForm">
+        </div>
+    </div>
+    <div th:include="templates/scripts :: scripts">
+    </div>
+</body>
+</html>
