@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+    <nav class="navbar navbar-default" th:fragment="navbar">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" th:href="@{/}"> Filmbox </a>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a th:href="@{/}">Home</a></li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Admin actions<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Show films</a></li>
+                            <li><a href="#">Show genres</a></li>
+                            <li><a href="#">Show ratings</a></li>
+                            <li><a href="#">Show people</a></li>
+                            <li><a th:href="@{/role/all}">Show roles</a></li>
+                            <li><a href="#">Show users</a></li>
+                            <li><a th:href="@{/credit/all}">Show credits</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">Films</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up </a></li>
+                    <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login </a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+</html>
