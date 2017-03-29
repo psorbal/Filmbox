@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:include="templates/head :: head">
+</head>
+<body>
+<nav th:replace="templates/navbar :: navbar"></nav>
+
+<div class="container">
+    <h2>Roles Table</h2>
+    <a th:href="@{/role/create}" class="btn btn-default" role="button">
+        Create new role
+    </a>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Role</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="role : ${roles}">
+                <td th:text="${role.roleId}"></td>
+                <td th:text="${role.role}"></td>
+                <td>
+                    <a th:href="@{/role/{id}(id = ${role.roleId})}" class="btn btn-info" role="button">
+                        Read
+                    </a>
+                    <a th:href="@{/role/edit/{id}(id = ${role.roleId})}" class="btn btn-warning" role="button">
+                        Update
+                    </a>
+                    <button type="submit" th:form="deleteform+${role.roleId}" class="btn btn-danger">Delete</button>
+                    <form th:id="deleteform+${role.roleId}" class="form-inline" method="post"
+                          th:action="@{/role/delete/{id}(id = ${role.roleId})}" th:method="delete">
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div th:include="templates/scripts :: scripts"></div>
+</body>
+</html>
