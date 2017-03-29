@@ -27,7 +27,7 @@ public class User {
     private Set<FilmRating> filmRatings = new HashSet<FilmRating>();
 
     @OneToMany(mappedBy = "user")
-    private Set<UserAuthority> userAuthorities = new HashSet<UserAuthority>();
+    private Set<UserCredit> userCredits = new HashSet<UserCredit>();
 
     @OneToMany(mappedBy = "user")
     private Set<Comment> comments = new HashSet<Comment>();
@@ -72,12 +72,12 @@ public class User {
         this.filmRatings = filmRatings;
     }
 
-    public Set<UserAuthority> getUserAuthorities() {
-        return userAuthorities;
+    public Set<UserCredit> getUserCredits() {
+        return userCredits;
     }
 
-    public void setUserAuthorities(Set<UserAuthority> userAuthorities) {
-        this.userAuthorities = userAuthorities;
+    public void setUserCredits(Set<UserCredit> userCredits) {
+        this.userCredits = userCredits;
     }
 
     public Set<Comment> getComments() {
@@ -99,12 +99,12 @@ public class User {
                 Objects.equals(password, user.password) &&
                 Objects.equals(email, user.email) &&
                 Objects.equals(filmRatings, user.filmRatings) &&
-                Objects.equals(userAuthorities, user.userAuthorities) &&
+                Objects.equals(userCredits, user.userCredits) &&
                 Objects.equals(comments, user.comments);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, login, password, email, filmRatings, userAuthorities, comments);
+        return Objects.hash(userId, login, password, email, filmRatings, userCredits, comments);
     }
 }
