@@ -39,7 +39,7 @@ public class RoleController {
     @PostMapping("/create")
     public ModelAndView createRole(@ModelAttribute Role role) {
         roleService.addRole(role);
-        return new ModelAndView("roles/show-all");
+        return new ModelAndView("redirect:/role/all");
     }
 
     @GetMapping("/edit/{id}")
