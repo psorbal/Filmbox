@@ -1,11 +1,8 @@
 package pl.filmbox.configurations;
 
-import com.mchange.v2.c3p0.ComboPooledDataSource;
-import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
-import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -48,10 +45,10 @@ public class PersistenceJPAConfig implements EnvironmentAware {
 
     @Bean
     public DataSource getDataSource() throws PropertyVetoException {
-        ComboPooledDataSource dataSource = new ComboPooledDataSource();
-        dataSource.setDriverClass(env.getProperty("database.driver"));
-        dataSource.setJdbcUrl(env.getProperty("database.url"));
-        dataSource.setUser(env.getProperty("database.user"));
+        org.apache.tomcat.jdbc.pool.DataSource dataSource = new org.apache.tomcat.jdbc.pool.DataSource();
+        dataSource.setDriverClassName(env.getProperty("database.driver"));
+        dataSource.setUrl(env.getProperty("database.url"));
+        dataSource.setUsername(env.getProperty("database.user"));
         dataSource.setPassword(env.getProperty("database.password"));
         return dataSource;
     }
@@ -73,9 +70,5 @@ public class PersistenceJPAConfig implements EnvironmentAware {
         return properties;
     }
 
-    @Bean
-    public BeanPostProcessor persistenceTranslation() {
-        return new PersistenceExceptionTranslationPostProcessor();
-    }
 }
 
