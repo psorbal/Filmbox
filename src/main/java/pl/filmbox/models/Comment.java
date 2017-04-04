@@ -2,7 +2,6 @@ package pl.filmbox.models;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.Objects;
 
 @Entity
 @Table(name = "comments")
@@ -11,28 +10,24 @@ public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "comment_id")
-    private Long commentId;
-
-    @Column(name = "comment")
+    private Long id;
     private String comment;
+    private Date published;
 
-    @Column(name = "date_publication")
-    private Date datePublication;
-
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "film_id")
     private Film film;
 
-    public Long getCommentId() {
-        return commentId;
+    public Long getId() {
+        return id;
     }
 
-    public void setCommentId(Long commentId) {
-        this.commentId = commentId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getComment() {
@@ -43,12 +38,12 @@ public class Comment {
         this.comment = comment;
     }
 
-    public Date getDatePublication() {
-        return datePublication;
+    public Date getPublished() {
+        return published;
     }
 
-    public void setDatePublication(Date datePublication) {
-        this.datePublication = datePublication;
+    public void setPublished(Date published) {
+        this.published = published;
     }
 
     public User getUser() {
@@ -65,23 +60,5 @@ public class Comment {
 
     public void setFilm(Film film) {
         this.film = film;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Comment)) return false;
-        Comment comment1 = (Comment) o;
-
-        return Objects.equals(commentId, comment1.commentId) &&
-                Objects.equals(comment, comment1.comment) &&
-                Objects.equals(datePublication, comment1.datePublication) &&
-                Objects.equals(user, comment1.user) &&
-                Objects.equals(film, comment1.film);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(commentId, comment, datePublication, user, film);
     }
 }

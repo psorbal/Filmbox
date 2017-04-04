@@ -1,8 +1,8 @@
 package pl.filmbox.models;
 
 import javax.persistence.*;
+import java.util.Collections;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -12,51 +12,33 @@ public class Genre {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "genre_id")
-    private Long genreId;
+    private Long id;
+    private String name;
 
-    @Column(name = "genre")
-    private String genre;
+    @ManyToMany(mappedBy = "genres")
+    private Set<Film> films = new HashSet<>();
 
-    @OneToMany(mappedBy = "genre")
-    private Set<FilmGenre> filmGenres = new HashSet<FilmGenre>();
-
-    public Long getGenreId() {
-        return genreId;
+    public Long getId() {
+        return id;
     }
 
-    public void setGenreId(Long genreId) {
-        this.genreId = genreId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public String getGenre() {
-        return genre;
+    public String getName() {
+        return name;
     }
 
-    public void setGenre(String genre) {
-        this.genre = genre;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public Set<FilmGenre> getFilmGenres() {
-        return filmGenres;
+    public Set<Film> getFilms() {
+        return Collections.unmodifiableSet(this.films);
     }
 
-    public void setFilmGenres(Set<FilmGenre> filmGenres) {
-        this.filmGenres = filmGenres;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Genre)) return false;
-        Genre genre1 = (Genre) o;
-
-        return Objects.equals(genreId, genre1.genreId) &&
-                Objects.equals(genre, genre1.genre) &&
-                Objects.equals(filmGenres, genre1.filmGenres);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(genreId, genre, filmGenres);
+    public void addFilm(Film film) {
+        this.films.add(film);
     }
 }

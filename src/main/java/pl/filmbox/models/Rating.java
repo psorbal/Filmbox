@@ -1,8 +1,8 @@
 package pl.filmbox.models;
 
 import javax.persistence.*;
+import java.util.Collections;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -12,63 +12,47 @@ public class Rating {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "rating_id")
-    private Long ratingId;
+    private Long id;
 
     @Column(name = "rating")
-    private Float rating;
+    private float rating;
 
-    @Column(name = "rating_as_string")
-    private String ratingAsWord;
+    @Column(name = "in_words")
+    private String inWords;
 
     @OneToMany(mappedBy = "rating")
-    private Set<FilmRating> filmRatings = new HashSet<FilmRating>();
+    private Set<FilmRating> filmRatings = new HashSet<>();
 
-    public Long getRatingId() {
-        return ratingId;
+    public Long getId() {
+        return id;
     }
 
-    public void setRatingId(Long ratingId) {
-        this.ratingId = ratingId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public Float getRating() {
+    public float getRating() {
         return rating;
     }
 
-    public void setRating(Float rating) {
+    public void setRating(float rating) {
         this.rating = rating;
     }
 
-    public String getRatingAsWord() {
-        return ratingAsWord;
+    public String getInWords() {
+        return inWords;
     }
 
-    public void setRatingAsWord(String ratingAsWord) {
-        this.ratingAsWord = ratingAsWord;
+    public void setInWords(String inWords) {
+        this.inWords = inWords;
     }
 
     public Set<FilmRating> getFilmRatings() {
-        return filmRatings;
+        return Collections.unmodifiableSet(this.filmRatings);
     }
 
-    public void setFilmRatings(Set<FilmRating> filmRatings) {
-        this.filmRatings = filmRatings;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Rating)) return false;
-        Rating rating1 = (Rating) o;
-
-        return Objects.equals(ratingId, rating1.ratingId) &&
-                Objects.equals(rating, rating1.rating) &&
-                Objects.equals(ratingAsWord, rating1.ratingAsWord) &&
-                Objects.equals(filmRatings, rating1.filmRatings);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(ratingId, rating, ratingAsWord, filmRatings);
+    public void addFilmRating(FilmRating filmRating) {
+        filmRating.setRating(this);
+        this.filmRatings.add(filmRating);
     }
 }

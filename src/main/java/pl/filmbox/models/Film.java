@@ -2,9 +2,7 @@ package pl.filmbox.models;
 
 import javax.persistence.*;
 import java.time.Year;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "films")
@@ -13,62 +11,50 @@ public class Film {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "film_id")
-    private Long filmId;
-
-    @Column(name = "title_pl")
-    private String titlePL;
-
-    @Column(name = "title_eng")
-    private String titleENG;
-
-    @Column(name = "release_year")
-    private Year releaseYear;
-
-    @Column(name = "description")
+    private Long id;
+    private String title;
+    private Year release;
     private String description;
 
     @OneToMany(mappedBy = "film")
-    private Set<FilmPeople> filmPeople = new HashSet<FilmPeople>();
+    private Set<Comment> comments = new HashSet<>();
 
     @OneToMany(mappedBy = "film")
-    private Set<FilmGenre> filmGenres = new HashSet<FilmGenre>();
+    private Set<FilmRating> filmRatings = new HashSet<>();
 
     @OneToMany(mappedBy = "film")
-    private Set<FilmRating> filmRatings = new HashSet<FilmRating>();
+    private Set<FilmPeople> filmPeople = new HashSet<>();
 
-    @OneToMany(mappedBy = "film")
-    private Set<Comment> comments = new HashSet<Comment>();
+    @ManyToMany
+    @JoinTable(
+            name = "films_genres",
+            joinColumns = @JoinColumn(name = "film_id"),
+            inverseJoinColumns = @JoinColumn(name = "genre_id")
+    )
+    private Set<Genre> genres;
 
-    public Long getFilmId() {
-        return filmId;
+    public Long getId() {
+        return id;
     }
 
-    public void setFilmId(Long filmId) {
-        this.filmId = filmId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public String getTitlePL() {
-        return titlePL;
+    public String getTitle() {
+        return title;
     }
 
-    public void setTitlePL(String titlePL) {
-        this.titlePL = titlePL;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String getTitleENG() {
-        return titleENG;
+    public Year getRelease() {
+        return release;
     }
 
-    public void setTitleENG(String titleENG) {
-        this.titleENG = titleENG;
-    }
-
-    public Year getReleaseYear() {
-        return releaseYear;
-    }
-
-    public void setReleaseYear(Year releaseYear) {
-        this.releaseYear = releaseYear;
+    public void setRelease(Year release) {
+        this.release = release;
     }
 
     public String getDescription() {
@@ -79,67 +65,37 @@ public class Film {
         this.description = description;
     }
 
-    public Set<FilmPeople> getFilmPeople() {
-        return filmPeople;
-    }
-
-    public void setFilmPeople(Set<FilmPeople> filmPeople) {
-        this.filmPeople = filmPeople;
-    }
-
-    public Set<FilmGenre> getFilmGenres() {
-        return filmGenres;
-    }
-
-    public void setFilmGenres(Set<FilmGenre> filmGenres) {
-        this.filmGenres = filmGenres;
-    }
-
-    public Set<FilmRating> getFilmRatings() {
-        return filmRatings;
-    }
-
-    public void setFilmRatings(Set<FilmRating> filmRatings) {
-        this.filmRatings = filmRatings;
-    }
-
     public Set<Comment> getComments() {
-        return comments;
+        return Collections.unmodifiableSet(this.comments);
     }
 
-    public void setComments(Set<Comment> comments) {
-        this.comments = comments;
+    public void addComment(Comment comment) {
+        this.comments.add(comment);
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Film)) return false;
-        Film film = (Film) o;
-
-        return Objects.equals(filmId, film.filmId) &&
-                Objects.equals(titlePL, film.titlePL) &&
-                Objects.equals(titleENG, film.titleENG) &&
-                Objects.equals(releaseYear, film.releaseYear) &&
-                Objects.equals(description, film.description) &&
-                Objects.equals(filmPeople, film.filmPeople) &&
-                Objects.equals(filmGenres, film.filmGenres) &&
-                Objects.equals(filmRatings, film.filmRatings) &&
-                Objects.equals(comments, film.comments);
+    public Set<FilmRating> getRatings() {
+        return Collections.unmodifiableSet(this.filmRatings);
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(
-                filmId,
-                titlePL,
-                titleENG,
-                releaseYear,
-                description,
-                filmPeople,
-                filmGenres,
-                filmRatings,
-                comments
-        );
+    public void addFilmRating(FilmRating filmRating) {
+        filmRating.setFilm(this);
+        this.filmRatings.add(filmRating);
+    }
+
+    public Set<FilmPeople> getFilmPeople() {
+        return Collections.unmodifiableSet(this.filmPeople);
+    }
+
+    public void addFilmPeople(FilmPeople filmPeople) {
+        filmPeople.setFilm(this);
+        this.filmPeople.add(filmPeople);
+    }
+
+    public Set<Genre> getGenres() {
+        return Collections.unmodifiableSet(this.genres);
+    }
+
+    public void addGenres(Genre genre) {
+        this.genres.add(genre);
     }
 }

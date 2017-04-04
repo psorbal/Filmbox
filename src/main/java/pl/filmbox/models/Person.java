@@ -1,10 +1,7 @@
 package pl.filmbox.models;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "persons")
@@ -13,29 +10,21 @@ public class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "person_id")
-    private Long personId;
-
-    @Column(name = "firstname")
+    private Long id;
     private String firstname;
-
-    @Column(name = "lastname")
     private String lastname;
-
-    @Column(name = "birthday")
-    private Date birthday;
-
-    @Column(name = "death")
-    private Date dateOfDeath;
+    private Date birthdate;
+    private Date death;
 
     @OneToMany(mappedBy = "person")
-    private Set<FilmPeople> filmPeople = new HashSet<FilmPeople>();
+    private Set<FilmPeople> filmPeople = new HashSet<>();
 
-    public Long getPersonId() {
-        return personId;
+    public Long getId() {
+        return id;
     }
 
-    public void setPersonId(Long personId) {
-        this.personId = personId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getFirstname() {
@@ -54,50 +43,28 @@ public class Person {
         this.lastname = lastname;
     }
 
-    public Date getBirthday() {
-        return birthday;
+    public Date getBirthdate() {
+        return birthdate;
     }
 
-    public void setBirthday(Date birthday) {
-        this.birthday = birthday;
+    public void setBirthdate(Date birthdate) {
+        this.birthdate = birthdate;
     }
 
-    public Date getDateOfDeath() {
-        return dateOfDeath;
+    public Date getDeath() {
+        return death;
     }
 
-    public void setDateOfDeath(Date dateOfDeath) {
-        this.dateOfDeath = dateOfDeath;
+    public void setDeath(Date death) {
+        this.death = death;
     }
 
     public Set<FilmPeople> getFilmPeople() {
-        return filmPeople;
-    }
-
-    public void setFilmPeople(Set<FilmPeople> filmPeople) {
-        this.filmPeople = filmPeople;
+        return Collections.unmodifiableSet(this.filmPeople);
     }
 
     public void addFilmPeople(FilmPeople filmPeople) {
+        filmPeople.setPerson(this);
         this.filmPeople.add(filmPeople);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Person)) return false;
-        Person person = (Person) o;
-
-        return Objects.equals(personId, person.personId) &&
-                Objects.equals(firstname, person.firstname) &&
-                Objects.equals(lastname, person.lastname) &&
-                Objects.equals(birthday, person.birthday) &&
-                Objects.equals(dateOfDeath, person.dateOfDeath) &&
-                Objects.equals(filmPeople, person.filmPeople);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(personId, firstname, lastname, birthday, dateOfDeath, filmPeople);
     }
 }

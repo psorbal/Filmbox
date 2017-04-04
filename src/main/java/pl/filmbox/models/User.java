@@ -1,9 +1,7 @@
 package pl.filmbox.models;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "users")
@@ -12,32 +10,31 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
-    private Long userId;
-
-    @Column(name = "login")
+    private Long id;
     private String login;
-
-    @Column(name = "password")
     private String password;
-
-    @Column(name = "email")
     private String email;
 
     @OneToMany(mappedBy = "user")
-    private Set<FilmRating> filmRatings = new HashSet<FilmRating>();
+    private Set<Comment> comments = new HashSet<>();
 
     @OneToMany(mappedBy = "user")
-    private Set<UserCredit> userCredits = new HashSet<UserCredit>();
+    private Set<FilmRating> filmRatings = new HashSet<>();
 
-    @OneToMany(mappedBy = "user")
-    private Set<Comment> comments = new HashSet<Comment>();
+    @ManyToMany
+    @JoinTable(
+            name = "users_credits",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "credit_id")
+    )
+    private Set<Credit> credits = new HashSet<>();
 
-    public Long getUserId() {
-        return userId;
+    public Long getId() {
+        return id;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getLogin() {
@@ -64,47 +61,28 @@ public class User {
         this.email = email;
     }
 
-    public Set<FilmRating> getFilmRatings() {
-        return filmRatings;
-    }
-
-    public void setFilmRatings(Set<FilmRating> filmRatings) {
-        this.filmRatings = filmRatings;
-    }
-
-    public Set<UserCredit> getUserCredits() {
-        return userCredits;
-    }
-
-    public void setUserCredits(Set<UserCredit> userCredits) {
-        this.userCredits = userCredits;
-    }
-
     public Set<Comment> getComments() {
-        return comments;
+        return Collections.unmodifiableSet(this.comments);
     }
 
-    public void setComments(Set<Comment> comments) {
-        this.comments = comments;
+    public void addComment(Comment comment) {
+        this.comments.add(comment);
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof User)) return false;
-        User user = (User) o;
-
-        return Objects.equals(userId, user.userId) &&
-                Objects.equals(login, user.login) &&
-                Objects.equals(password, user.password) &&
-                Objects.equals(email, user.email) &&
-                Objects.equals(filmRatings, user.filmRatings) &&
-                Objects.equals(userCredits, user.userCredits) &&
-                Objects.equals(comments, user.comments);
+    public Set<FilmRating> getFilmRatings() {
+        return Collections.unmodifiableSet(this.filmRatings);
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(userId, login, password, email, filmRatings, userCredits, comments);
+    public void addFilmRating(FilmRating filmRating) {
+        filmRating.setUser(this);
+        this.filmRatings.add(filmRating);
+    }
+
+    public Set<Credit> getCredits() {
+        return Collections.unmodifiableSet(this.credits);
+    }
+
+    public void addCredit(Credit credit) {
+        this.credits.add(credit);
     }
 }

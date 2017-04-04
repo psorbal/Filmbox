@@ -1,8 +1,8 @@
 package pl.filmbox.models;
 
 import javax.persistence.*;
+import java.util.Collections;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -12,51 +12,36 @@ public class Credit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "credit_id")
-    private Long creditId;
+    private Long id;
 
-    @Column(name = "credit")
-    private String credit;
+    @Column(name = "name")
+    private String name;
 
-    @OneToMany(mappedBy = "credit")
-    private Set<UserCredit> userCredits = new HashSet<UserCredit>();
+    @ManyToMany(mappedBy = "credits")
+    private Set<User> users = new HashSet<>();
 
-    public Long getCreditId() {
-        return creditId;
+    public Long getId() {
+        return id;
     }
 
-    public void setCreditId(Long creditId) {
-        this.creditId = creditId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public String getCredit() {
-        return credit;
+    public String getName() {
+        return name;
     }
 
-    public void setCredit(String credit) {
-        this.credit = credit;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public Set<UserCredit> getUserCredits() {
-        return userCredits;
+    public Set<User> getUsers() {
+        return Collections.unmodifiableSet(this.users);
     }
 
-    public void setUserCredits(Set<UserCredit> userCredits) {
-        this.userCredits = userCredits;
+    public void addUser(User user) {
+        this.users.add(user);
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Credit)) return false;
-        Credit credit1 = (Credit) o;
-
-        return Objects.equals(creditId, credit1.creditId) &&
-                Objects.equals(credit, credit1.credit) &&
-                Objects.equals(userCredits, credit1.userCredits);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(creditId, credit, userCredits);
-    }
 }

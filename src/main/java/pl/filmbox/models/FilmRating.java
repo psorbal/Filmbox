@@ -1,35 +1,34 @@
 package pl.filmbox.models;
 
 import javax.persistence.*;
-import java.util.Objects;
 
 @Entity
-@Table(name = "film_rating")
+@Table(name = "films_ratings")
 public class FilmRating {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "film_rating_id")
-    private Long filmRatingId;
+    private Long id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "film_id")
     private Film film;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "rating_id")
-    private Rating rating;
-
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Long getFilmRatingId() {
-        return filmRatingId;
+    @ManyToOne
+    @JoinColumn(name = "rating_id")
+    private Rating rating;
+
+    public Long getId() {
+        return id;
     }
 
-    public void setFilmRatingId(Long filmRatingId) {
-        this.filmRatingId = filmRatingId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Film getFilm() {
@@ -40,14 +39,6 @@ public class FilmRating {
         this.film = film;
     }
 
-    public Rating getRating() {
-        return rating;
-    }
-
-    public void setRating(Rating rating) {
-        this.rating = rating;
-    }
-
     public User getUser() {
         return user;
     }
@@ -56,20 +47,11 @@ public class FilmRating {
         this.user = user;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof FilmRating)) return false;
-        FilmRating that = (FilmRating) o;
-
-        return Objects.equals(filmRatingId, that.filmRatingId) &&
-                Objects.equals(film, that.film) &&
-                Objects.equals(rating, that.rating) &&
-                Objects.equals(user, that.user);
+    public Rating getRating() {
+        return rating;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(filmRatingId, film, rating, user);
+    public void setRating(Rating rating) {
+        this.rating = rating;
     }
 }
