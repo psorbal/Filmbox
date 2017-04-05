@@ -20,18 +20,18 @@
         </thead>
         <tbody>
         <tr th:each="credit : ${credits}">
-            <td th:text="${credit.creditId}"></td>
-            <td th:text="${credit.credit}"></td>
+            <td th:text="${credit.id}"></td>
+            <td th:text="${credit.name}"></td>
             <td>
-                <a th:href="@{/credit/{id}(id = ${credit.creditId})}" class="btn btn-info" role="button">
+                <a th:href="@{/credit/{id}(id = ${credit.id})}" class="btn btn-info" role="button">
                     Read
                 </a>
-                <a th:href="@{/credit/edit/{id}(id = ${credit.creditId})}" class="btn btn-warning" role="button">
+                <a th:href="@{/credit/edit/{id}(id = ${credit.id})}" class="btn btn-warning" role="button">
                     Update
                 </a>
-                <button type="submit" th:form="deleteform+${credit.creditId}" class="btn btn-danger">Delete</button>
-                <form th:id="deleteform+${credit.creditId}" class="form-inline" method="post"
-                      th:action="@{/credit/delete/{id}(id = ${credit.creditId})}" th:method="delete">
+                <button type="submit" th:form="deleteform+${credit.id}" class="btn btn-danger">Delete</button>
+                <form th:id="deleteform+${credit.id}" class="form-inline" method="post"
+                      th:action="@{/credit/delete/{id}(id = ${credit.id})}" th:method="delete">
                 </form>
             </td>
         </tr>

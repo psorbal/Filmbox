@@ -12,11 +12,11 @@
         </div>
         <div class="panel-body">
             <form class="form-horizontal" method="post" th:action="@{/credit/update}" th:object="${credit}" th:method="put">
-                <input type="hidden" th:field="*{creditId}">
+                <input type="hidden" th:field="*{id}">
                 <div class="form-group">
                     <label class="control-label col-sm-4" for="credit">Credit:</label>
                     <div class="col-sm-5">
-                        <input type="text" class="form-control" id="credit" th:field="*{credit}"
+                        <input type="text" class="form-control" id="credit" th:field="*{name}"
                                placeholder="Enter name of credit">
                     </div>
                 </div>
