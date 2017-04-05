@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:include="templates/head :: head">
+</head>
+<body>
+<nav th:replace="templates/navbar :: navbar"></nav>
+
+<div class="container">
+    <div class="panel panel-warning">
+        <div class="panel-heading">
+            Update User form
+        </div>
+        <div class="panel-body">
+            <form class="form-horizontal" method="post" th:action="@{/user/update}" th:object="${user}" th:method="put">
+                <input type="hidden" th:field="*{id}">
+                <input type="hidden" th:field="*{password}" value="">
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="login">Login:</label>
+                    <div class="col-sm-5">
+                        <input type="text" class="form-control" id="login" th:field="*{login}"
+                               placeholder="Enter login">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="email">E-mail:</label>
+                    <div class="col-sm-5">
+                        <input type="email" class="form-control" id="email" th:field="*{email}"
+                               placeholder="Enter email">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="credit">Select credentials:</label>
+                    <div class=" col-sm-5">
+                        <select multiple="multiple" class="form-control" id="credit" name="credits">
+                            <option th:each="credit : ${credits}"
+                                    th:selected="${#sets.contains(user.credits, credit)}"
+                                    th:value="${credit.id}" th:text="${credit.name}">
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-4 col-sm-5">
+                        <button type="submit" class="btn btn-default">Update</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div th:include="templates/scripts :: scripts"></div>
+</body>
+</html>

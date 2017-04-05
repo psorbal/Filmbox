@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:include="templates/head :: head">
+</head>
+<body>
+<nav th:replace="templates/navbar :: navbar"></nav>
+
+<div class="container">
+    <h2>Users Table</h2>
+    <a th:href="@{/user/create}" class="btn btn-default" role="button">
+        Create new User
+    </a>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Login</th>
+                <th>E-mail</th>
+                <th>Credentials</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="user : ${users}">
+                <td th:text="${user.id}"></td>
+                <td th:text="${user.login}"></td>
+                <td th:text="${user.email}"></td>
+                <td>
+                    <div th:each="credit : ${user.credits}" th:text="${credit.name}"></div>
+                </td>
+                <td>
+                    <a th:href="@{/user/{id}(id = ${user.id})}" class="btn btn-info" role="button">
+                        Read
+                    </a>
+                    <a th:href="@{/user/edit/{id}(id = ${user.id})}" class="btn btn-warning" role="button">
+                        Update
+                    </a>
+                    <button type="submit" th:form="deleteform+${user.id}" class="btn btn-danger">Delete</button>
+                    <form th:id="deleteform+${user.id}" class="form-inline" method="post"
+                          th:action="@{/user/delete/{id}(id = ${user.id})}" th:method="delete">
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div th:include="templates/scripts :: scripts"></div>
+</body>
+</html>
