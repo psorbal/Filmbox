@@ -3,6 +3,7 @@ package pl.filmbox.models;
 import javax.persistence.*;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -44,4 +45,17 @@ public class Credit {
         this.users.add(user);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Credit)) return false;
+        Credit credit = (Credit) o;
+        return Objects.equals(id, credit.id) &&
+                Objects.equals(name, credit.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
+    }
 }

@@ -3,6 +3,7 @@ package pl.filmbox.models;
 import javax.persistence.*;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -54,5 +55,20 @@ public class Rating {
     public void addFilmRating(FilmRating filmRating) {
         filmRating.setRating(this);
         this.filmRatings.add(filmRating);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Rating)) return false;
+        Rating rating1 = (Rating) o;
+        return Float.compare(rating1.rating, rating) == 0 &&
+                Objects.equals(id, rating1.id) &&
+                Objects.equals(inWords, rating1.inWords);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, rating, inWords);
     }
 }

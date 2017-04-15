@@ -98,4 +98,20 @@ public class Film {
     public void addGenres(Genre genre) {
         this.genres.add(genre);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Film)) return false;
+        Film film = (Film) o;
+        return Objects.equals(id, film.id) &&
+                Objects.equals(title, film.title) &&
+                Objects.equals(release, film.release) &&
+                Objects.equals(description, film.description);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, release, description);
+    }
 }

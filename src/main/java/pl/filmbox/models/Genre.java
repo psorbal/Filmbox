@@ -3,6 +3,7 @@ package pl.filmbox.models;
 import javax.persistence.*;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -40,5 +41,19 @@ public class Genre {
 
     public void addFilm(Film film) {
         this.films.add(film);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Genre)) return false;
+        Genre genre = (Genre) o;
+        return Objects.equals(id, genre.id) &&
+                Objects.equals(name, genre.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
     }
 }

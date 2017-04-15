@@ -2,6 +2,7 @@ package pl.filmbox.models;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Objects;
 
 @Entity
 @Table(name = "comments")
@@ -60,5 +61,20 @@ public class Comment {
 
     public void setFilm(Film film) {
         this.film = film;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Comment)) return false;
+        Comment comment1 = (Comment) o;
+        return Objects.equals(id, comment1.id) &&
+                Objects.equals(comment, comment1.comment) &&
+                Objects.equals(published, comment1.published);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, comment, published);
     }
 }
