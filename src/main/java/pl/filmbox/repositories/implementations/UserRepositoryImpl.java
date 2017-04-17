@@ -27,6 +27,16 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
+    public User getUserByUsername(String username) {
+        TypedQuery<User> typedQuery = entityManager.createQuery(
+                "SELECT u FROM "+ User.class.getSimpleName() +" u where u.username = :username",
+                User.class
+        );
+        typedQuery.setParameter("username", username);
+        return typedQuery.getSingleResult();
+    }
+
+    @Override
     public List<User> getAllUsers() {
         TypedQuery<User> typedQuery = entityManager.createQuery(
                 "SELECT u from " + User.class.getSimpleName() + " u",
