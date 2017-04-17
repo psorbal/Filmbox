@@ -13,10 +13,10 @@
         <div class="panel-body">
             <form class="form-horizontal" method="post" th:action="@{/user/create}" th:object="${user}">
                 <div class="form-group">
-                    <label class="control-label col-sm-4" for="login">Login:</label>
+                    <label class="control-label col-sm-4" for="username">Login:</label>
                     <div class="col-sm-5">
-                        <input type="text" class="form-control" id="login" th:field="*{login}"
-                               placeholder="Enter login">
+                        <input type="text" class="form-control" id="username" th:field="*{username}"
+                               placeholder="Enter username">
                     </div>
                 </div>
                 <div class="form-group">
