@@ -2,21 +2,30 @@
 <html
         xmlns="http://www.w3.org/1999/xhtml"
         xmlns:th="http://www.thymeleaf.org">
+<head th:include="templates/head :: head">
 
-    <div class="panel panel-info" th:fragment="loginForm">
-        <p class="lead text-center">Login form</p>
+</head>
+<body>
+
+<nav th:replace="templates/navbar :: navbar"></nav>
+
+<div class="container">
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            Login form
+        </div>
         <div class="panel-body">
-            <form class="form-horizontal">
+            <form class="form-horizontal" method="post" th:action="@{/login}">
                 <div class="form-group">
-                    <label class="control-label col-sm-4" for="login">Login:</label>
+                    <label class="control-label col-sm-4" for="username">Username:</label>
                     <div class="col-sm-5">
-                        <input type="text" class="form-control" id="login" placeholder="Enter login">
+                        <input type="text" class="form-control" id="username" name="username" placeholder="Enter username">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-sm-4" for="pwd">Password:</label>
+                    <label class="control-label col-sm-4" for="password">Password:</label>
                     <div class="col-sm-5">
-                        <input type="password" class="form-control" id="pwd" placeholder="Enter password">
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Enter password">
                     </div>
                 </div>
                 <div class="form-group">
@@ -39,5 +48,9 @@
             </div>
         </div>
     </div>
+</div>
 
+<div th:include="templates/scripts :: scripts"></div>
+
+</body>
 </html>
