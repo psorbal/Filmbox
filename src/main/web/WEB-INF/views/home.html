@@ -7,13 +7,15 @@
 </head>
 <body>
 
-    <nav th:replace="templates/navbar :: navbar"></nav>
+<nav th:replace="templates/navbar :: navbar"></nav>
 
-    <div class="container">
-        <div th:replace="auth/login :: loginForm"></div>
+<div class="container">
+    <div>
+        <h1>Witamy na stronie głównej Filmbox.</h1>
     </div>
+</div>
 
-    <div th:include="templates/scripts :: scripts"></div>
+<div th:include="templates/scripts :: scripts"></div>
 
 </body>
 </html>
