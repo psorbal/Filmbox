@@ -48,7 +48,7 @@ public class UserController {
             @ModelAttribute User user,
             @RequestParam("credits") List<Long> credits) {
 
-        User user1 = userService.addAndUpdateUser(user, credits);
+        User user1 = userService.addUser(user, credits);
         return new ModelAndView("redirect:/user/"+user1.getId().toString());
     }
 
@@ -66,7 +66,7 @@ public class UserController {
             @ModelAttribute User user,
             @RequestParam("credits") List<Long> credits) {
 
-        userService.addAndUpdateUser(user, credits);
+        userService.updateUser(user, credits);
         return new ModelAndView("redirect:/user/all");
     }
 
