@@ -1,6 +1,7 @@
 package pl.filmbox.services.implementations;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.filmbox.models.User;
@@ -16,15 +17,30 @@ public class UserServiceImpl implements UserService {
 
     private UserRepository userRepository;
     private CreditService creditService;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, CreditService creditService) {
+    public UserServiceImpl(
+            UserRepository userRepository,
+            CreditService creditService,
+            BCryptPasswordEncoder bCryptPasswordEncoder) {
+
         this.creditService = creditService;
         this.userRepository = userRepository;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     @Override
-    public User addAndUpdateUser(User user, List<Long> credits) {
+    public User addUser(User user, List<Long> credits) {
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        for (Long creditId : credits) {
+            user.addCredit(creditService.getCredit(creditId));
+        }
+        return userRepository.addAndUpdateUser(user);
+    }
+
+    @Override
+    public User updateUser(User user, List<Long> credits) {
         for (Long creditId : credits) {
             user.addCredit(creditService.getCredit(creditId));
         }
