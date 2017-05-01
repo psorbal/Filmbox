@@ -5,6 +5,7 @@ import pl.filmbox.models.User;
 import pl.filmbox.repositories.UserRepository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.List;
@@ -28,12 +29,40 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public User getUserByUsername(String username) {
-        TypedQuery<User> typedQuery = entityManager.createQuery(
-                "SELECT u FROM "+ User.class.getSimpleName() +" u where u.username = :username",
-                User.class
-        );
-        typedQuery.setParameter("username", username);
-        return typedQuery.getSingleResult();
+        User user = null;
+
+        try{
+            TypedQuery<User> typedQuery = entityManager.createQuery(
+                    "SELECT u FROM "+ User.class.getSimpleName() +" u where u.username = :username",
+                    User.class
+            );
+            typedQuery.setParameter("username", username);
+            user = typedQuery.getSingleResult();
+        }
+        catch (NoResultException nre) {
+            //do nothing
+        }
+
+        return user;
+    }
+
+    @Override
+    public User getUserByEmail(String email) {
+        User user = null;
+
+        try{
+            TypedQuery<User> typedQuery = entityManager.createQuery(
+                    "SELECT u FROM "+ User.class.getSimpleName() +" u where u.email = :email",
+                    User.class
+            );
+            typedQuery.setParameter("email", email);
+            user = typedQuery.getSingleResult();
+        }
+        catch (NoResultException nre) {
+            //do nothing
+        }
+
+        return user;
     }
 
     @Override
