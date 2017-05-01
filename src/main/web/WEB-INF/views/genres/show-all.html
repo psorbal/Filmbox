@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:include="templates/head :: head">
+</head>
+<body>
+<nav th:replace="templates/navbar :: navbar"></nav>
+
+<div class="container">
+    <h2>Genres Table</h2>
+    <a th:href="@{/genre/create}" class="btn btn-default" role="button">
+        Create new genre
+    </a>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Genre</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="genre : ${genres}">
+                <td th:text="${genre.id}"></td>
+                <td th:text="${genre.name}"></td>
+                <td>
+                    <a th:href="@{/genre/{id}(id = ${genre.id})}" class="btn btn-info" role="button">
+                        Read
+                    </a>
+                    <a th:href="@{/genre/edit/{id}(id = ${genre.id})}" class="btn btn-warning" role="button">
+                        Update
+                    </a>
+                    <button type="submit" th:form="deleteform+${genre.id}" class="btn btn-danger">Delete</button>
+                    <form th:id="deleteform+${genre.id}" class="form-inline" method="post"
+                          th:action="@{/genre/delete/{id}(id = ${genre.id})}" th:method="delete">
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div th:include="templates/scripts :: scripts"></div>
+</body>
+</html>

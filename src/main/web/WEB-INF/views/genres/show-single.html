@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:include="templates/head :: head">
+</head>
+<body>
+<nav th:replace="templates/navbar :: navbar"></nav>
+
+<div class="container">
+    <div class="jumbotron">
+        <h1 th:text="${genre.id}"></h1>
+        <p th:text="${genre.name}"></p>
+    </div>
+</div>
+
+<div th:include="templates/scripts :: scripts"></div>
+</body>
+</html>
