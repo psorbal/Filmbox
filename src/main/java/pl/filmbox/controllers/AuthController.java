@@ -1,51 +1,59 @@
 package pl.filmbox.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
 import pl.filmbox.models.User;
 import pl.filmbox.services.UserService;
+import pl.filmbox.validators.RegisterUserValidation;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@RestController
+@Controller
 public class AuthController {
 
     private UserService userService;
+    private RegisterUserValidation registerUserValidation;
 
     @Autowired
-    public AuthController(UserService userService) {
+    public AuthController(UserService userService, RegisterUserValidation registerUserValidation) {
         this.userService = userService;
+        this.registerUserValidation = registerUserValidation;
     }
 
     @GetMapping("/login")
-    public ModelAndView getLoginForm() {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("auth/login");
-        return modelAndView;
+    public String getLoginForm() {
+
+        return "auth/login";
     }
 
     @GetMapping("/register")
-    public ModelAndView getRegisterForm() {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("user", new User());
-        modelAndView.setViewName("auth/register");
-        return modelAndView;
+    public String getRegisterForm(Model model) {
+
+        if (!model.containsAttribute("user")) {
+            model.addAttribute("user", new User());
+        }
+
+        return "auth/register";
     }
 
     @PostMapping("/register")
-    public ModelAndView register(
-            @ModelAttribute User user) {
+    public String register(@ModelAttribute User user, BindingResult bindingResult) {
+
+        registerUserValidation.validate(user, bindingResult);
+        if (bindingResult.hasErrors()) {
+            return "auth/register";
+        }
+
         List<Long> credits = new ArrayList<>();
         credits.add(2L);
         userService.addUser(user, credits);
 
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("auth/login");
-        return modelAndView;
+        return "redirect:/login";
     }
 }
