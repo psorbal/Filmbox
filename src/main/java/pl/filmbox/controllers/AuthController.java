@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import pl.filmbox.models.User;
 import pl.filmbox.services.UserService;
-import pl.filmbox.validators.RegisterUserValidation;
+import pl.filmbox.validators.UserValidation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,12 +18,12 @@ import java.util.List;
 public class AuthController {
 
     private UserService userService;
-    private RegisterUserValidation registerUserValidation;
+    private UserValidation userValidation;
 
     @Autowired
-    public AuthController(UserService userService, RegisterUserValidation registerUserValidation) {
+    public AuthController(UserService userService, UserValidation userValidation) {
         this.userService = userService;
-        this.registerUserValidation = registerUserValidation;
+        this.userValidation = userValidation;
     }
 
     @GetMapping("/login")
@@ -48,7 +48,7 @@ public class AuthController {
     @PostMapping("/register")
     public String register(@ModelAttribute User user, BindingResult bindingResult) {
 
-        registerUserValidation.validate(user, bindingResult);
+        userValidation.validate(user, bindingResult);
         if (bindingResult.hasErrors()) {
             return "auth/register";
         }

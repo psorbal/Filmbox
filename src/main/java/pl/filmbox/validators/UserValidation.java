@@ -9,7 +9,7 @@ import pl.filmbox.models.User;
 import pl.filmbox.services.UserService;
 
 @Component
-public class RegisterUserValidation implements Validator {
+public class UserValidation implements Validator {
 
     private static final String EMAIL_PATTERN =
             "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$";
@@ -17,7 +17,7 @@ public class RegisterUserValidation implements Validator {
     private final UserService userService;
 
     @Autowired
-    public RegisterUserValidation(UserService userService) {
+    public UserValidation(UserService userService) {
         this.userService = userService;
     }
 
