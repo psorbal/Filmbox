@@ -21,7 +21,8 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
         return new Class<?>[] {
                 WebMvcConfig.class,
                 ThymeleafConfig.class,
-                PersistenceJPAConfig.class
+                PersistenceJPAConfig.class,
+                ValidationConfig.class
         };
     }
 
