@@ -1,6 +1,9 @@
 package pl.filmbox.models;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.*;
 
 @Entity
@@ -13,8 +16,10 @@ public class Person {
     private Long id;
     private String firstname;
     private String lastname;
-    private Date birthdate;
-    private Date death;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    private LocalDate birthdate;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    private LocalDate death;
 
     @OneToMany(mappedBy = "person")
     private Set<FilmPeople> filmPeople = new HashSet<>();
@@ -43,19 +48,19 @@ public class Person {
         this.lastname = lastname;
     }
 
-    public Date getBirthdate() {
+    public LocalDate getBirthdate() {
         return birthdate;
     }
 
-    public void setBirthdate(Date birthdate) {
+    public void setBirthdate(LocalDate birthdate) {
         this.birthdate = birthdate;
     }
 
-    public Date getDeath() {
+    public LocalDate getDeath() {
         return death;
     }
 
-    public void setDeath(Date death) {
+    public void setDeath(LocalDate death) {
         this.death = death;
     }
 

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:include="templates/head :: head">
+</head>
+<body>
+<nav th:replace="templates/navbar :: navbar"></nav>
+
+<div class="container">
+    <h2>People Table</h2>
+    <a th:href="@{/person/create}" class="btn btn-default" role="button">
+        Create new person
+    </a>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Firstname</th>
+                <th>Lastname</th>
+                <th>Birthdate</th>
+                <th>Date of death</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="person : ${people}">
+                <td th:text="${person.id}"></td>
+                <td th:text="${person.firstname}"></td>
+                <td th:text="${person.lastname}"></td>
+                <td th:text="${person.birthdate}"></td>
+                <td th:if="${person.death != null}" th:text="${person.death}"></td>
+                <td th:if="${person.death == null}">Wciąż żyje</td>
+                <td>
+                    <a th:href="@{/person/{id}(id = ${person.id})}" class="btn btn-info" role="button">
+                        Read
+                    </a>
+                    <a th:href="@{/person/edit/{id}(id = ${person.id})}" class="btn btn-warning" role="button">
+                        Update
+                    </a>
+                    <button type="submit" th:form="deleteform+${person.id}" class="btn btn-danger">Delete</button>
+                    <form th:id="deleteform+${person.id}" class="form-inline" method="post"
+                          th:action="@{/person/delete/{id}(id = ${person.id})}" th:method="delete">
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div th:include="templates/scripts :: scripts"></div>
+</body>
+</html>

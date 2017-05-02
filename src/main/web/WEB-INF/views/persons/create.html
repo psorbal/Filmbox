@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:include="templates/head :: head">
+</head>
+<body>
+<nav th:replace="templates/navbar :: navbar"></nav>
+
+<div class="container">
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            Create person form
+        </div>
+        <div class="panel-body">
+            <form class="form-horizontal" method="post" th:action="@{/person/create}" th:object="${Person}">
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="firstname">Firstname:</label>
+                    <div class="col-sm-5">
+                        <input type="text" class="form-control" id="firstname" th:field="*{firstname}"
+                               placeholder="Enter firstname">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="lastname">Lastname:</label>
+                    <div class="col-sm-5">
+                        <input type="text" class="form-control" id="lastname" th:field="*{lastname}"
+                               placeholder="Enter lastname">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="birthdate">Birthdate:</label>
+                    <div class="col-sm-5">
+                        <input type="date" class="form-control" id="birthdate" th:field="*{birthdate}"
+                               placeholder="Enter birthdate">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="death">Death:</label>
+                    <div class="col-sm-5">
+                        <input type="date" class="form-control" id="death" th:field="*{death}"
+                               placeholder="Enter date of death">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-4 col-sm-5">
+                        <button type="submit" class="btn btn-default">Create</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div th:include="templates/scripts :: scripts"></div>
+</body>
+</html>
